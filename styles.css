@@ -10,4 +10,5 @@
 .grid-box {
   border: 1px solid blue;
   background-color: #FAF9F6;
+  display: grid;
 }
