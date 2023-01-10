@@ -1,17 +1,24 @@
 // functions
-
 function removeAllChildNodes(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
 }
 
+function getRandomColor() {
+  let letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color = color + letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
 // javascript
 const grid = document.querySelector(".grid")
 
 // creating the grid
-
-const createGrid = () => {
+createGrid = () => {
   for (let i = 0; i < 256; i++) {
     const div = document.createElement("div")
     div.classList.add("cell")
@@ -23,7 +30,6 @@ const createGrid = () => {
 }
 
 // slider programming
-
 const slider = document.querySelector("#slider")
 const screenVal = document.querySelector(".value")
 slider.addEventListener("input", () => {
@@ -45,7 +51,6 @@ slider.addEventListener("input", () => {
 })
 
 // reset button
-
 const reset = document.querySelector("#reset")
 reset.addEventListener("click", () => {
   let val = document.getElementById("slider").value
@@ -55,6 +60,42 @@ reset.addEventListener("click", () => {
   }
 })
 
-//
+// Button for black color
+const black = document.querySelector('#black')
+black.addEventListener('click', () => {
+  let val = document.getElementById("slider").value
+  let cell = grid.children
+  for (let i = 0; i < val * val; i++) {
+    cell[i].addEventListener('mouseover', (event) => {
+      event.target.style.backgroundColor = 'black'
+    })
+  }
+})
 
+// Button for RGB
+const rgb = document.querySelector('#rgb')
+rgb.addEventListener('click', () => {
+  let val = document.getElementById("slider").value
+  let cell = grid.children
+  for (let i = 0; i < val * val; i++) {
+    cell[i].addEventListener('mouseover', (event) => {
+      event.target.style.backgroundColor = getRandomColor()
+    })
+  }
+})
+
+// choosing a color
+const color = document.querySelector('#color')
+color.addEventListener('input', () => {
+  let chosenColor = document.getElementById('color').value
+  let val = document.getElementById("slider").value
+  let cell = grid.children
+  for (let i = 0; i < val * val; i++) {
+    cell[i].addEventListener('mouseover', (event) => {
+      event.target.style.backgroundColor = chosenColor
+    })
+  }
+})
+
+// beginning grid for website
 createGrid()
