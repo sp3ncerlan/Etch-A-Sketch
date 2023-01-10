@@ -1,48 +1,60 @@
 // functions
-let sizeOfGrid = 16;
-// javascript
 
-const container = document.querySelector(".container")
-const resetButton = document.querySelector("button")
-
-const createGrid = (amtOfGrids) => {
-  const wrapper = document.createElement('div')
-  wrapper.classList.add('wrapper')
-
-  for (let i = 0; i < amtOfGrids; i++) {
-    const row = document.createElement('div')
-    row.classList.add('grid-row')
-
-    for (let j = 0; j < amtOfGrids; j++) {
-      const widthAndHeight = 960 / sizeOfGrid
-      const gridBox = document.createElement('div')
-      gridBox.classList.add('grid-box')
-      gridBox.style.width = `${widthAndHeight}px`
-      gridBox.style.height = `${widthAndHeight}px`
-      // adding event listener for mouse enter
-      gridBox.addEventListener('mouseenter', () => {
-        gridBox.style.backgroundColor = 'black'
-      })
-      row.appendChild(gridBox)
-    }
-    wrapper.appendChild(row)
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild)
   }
-  container.appendChild(wrapper)
 }
 
-resetButton.addEventListener('click', () => {
-  let userSize = Number(prompt("What dimensions do you want for the new grid?"))
+// javascript
+const grid = document.querySelector(".grid")
 
-  while (userSize > 100) {
-    userSize = Number(prompt("Pick a smaller number (<100)"))
+// creating the grid
+
+const createGrid = () => {
+  for (let i = 0; i < 256; i++) {
+    const div = document.createElement("div")
+    div.classList.add("cell")
+    div.addEventListener("mouseover", (event) => {
+      event.target.style.backgroundColor = "black"
+    })
+    grid.appendChild(div)
   }
+}
 
-  const wrapper = document.querySelector('.wrapper')
-  
-  if (!wrapper) {
-    createGrid(userSize)
-  } else {
-    wrapper.remove()
-    createGrid(userSize)
+// slider programming
+
+const slider = document.querySelector("#slider")
+const screenVal = document.querySelector(".value")
+slider.addEventListener("input", () => {
+  let val = document.getElementById("slider").value
+  screenVal.textContent = val
+  removeAllChildNodes(grid)
+  grid.setAttribute(
+    "style",
+    `grid-template-columns: repeat(${val}, 2fr); grid-template-rows: repeat(${val}, 2fr);`
+  )
+  for (let i = 0; i < val * val; i++) {
+    const div = document.createElement("div")
+    div.classList.add("cell")
+    div.addEventListener("mouseover", (event) => {
+      event.target.style.backgroundColor = "black"
+    })
+    grid.appendChild(div)
   }
 })
+
+// reset button
+
+const reset = document.querySelector("#reset")
+reset.addEventListener("click", () => {
+  let val = document.getElementById("slider").value
+  let cell = grid.children
+  for (let i = 0; i < val * val; i++) {
+    cell[i].style.backgroundColor = "white"
+  }
+})
+
+//
+
+createGrid()
